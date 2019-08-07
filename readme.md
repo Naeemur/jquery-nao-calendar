@@ -1,4 +1,4 @@
-﻿# jQuery Nao Inout
+﻿# jQuery Nao Calendar
 Responsive calendar plugin for jQuery web applications.
 This plugin has a few dependencies, so it is recommended to use if you are already using those dependencies in your project.
 
