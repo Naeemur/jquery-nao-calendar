@@ -38,6 +38,43 @@ function($) {
 		}
 	}
 	
+	$.fn.getSelectedDate = function (dateFormat = 'yyyy/MM/dd') {
+		let dateOrder = dateFormat.split('/')
+
+		let day = $(this).find('.month-days').find('.active').attr('data-date')
+		if (day == undefined) {
+			day = $(this).find('.month-days').find('.today').attr('data-date')
+			if (day == undefined)
+				return 'Select one date.'
+		}
+		let month = $(this).find('.year-month').find('.active').attr('data-month')
+		let year = $(this).find('.current-year').attr('data-year')
+
+		let date = ''
+
+		dateOrder.forEach(function (element, index, array) {
+			switch (element) {
+				case 'yyyy':
+					date += year
+					break;
+				case 'MM':
+					date += month
+					break;
+				case 'dd':
+					date += day
+					break;
+				default:
+					date = 'Incorrect date format!';
+					return 'Incorrect date format!';
+					break;
+			}
+			if (index < 2)
+				date += '/'
+		});
+
+		return date
+	}
+
 	$.fn.calendar = function (opt,val) {
 		var self = this;
 		if(typeof opt === 'string' && typeof val !== 'undefined') switch(opt) { // setter | method with args
@@ -254,6 +291,7 @@ function($) {
 				if(isMoving) return;
 				current.y++;
 				yrnm.text(current.y)
+				yrnm.attr('data-year', current.y)
 				bringMonth('next', current.y, current.m, null);
 			})
 			.focus(showYearPicker)
@@ -266,11 +304,14 @@ function($) {
 				if(isMoving) return;
 				current.y--;
 				yrnm.text(current.y)
+				yrnm.attr('data-year', current.y)
 				bringMonth('prev', current.y, current.m, null);
 			})
 			.focus(showYearPicker)
 		var yrnm = $('<div>')
 			.text(current.y)
+			.addClass('current-year')
+			.attr('data-year', current.y)
 			.attr('title', 'Go back to calendar')
 			.click(hideYearPicker)
 		var yrhd = $('<div>')
@@ -313,6 +354,7 @@ function($) {
 						$(this).parent().parent().find('.active').removeClass('active')
 						$(this).addClass('active')
 						bringMonth(dr, current.y, current.m, null);
+						year.removeClass('visible')
 					})
 			}
 		}
