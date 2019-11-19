@@ -51,6 +51,7 @@ function($) {
 		let year = $(this).find('.current-year').attr('data-year')
 
 		let date = ''
+		let error = false;
 
 		dateOrder.forEach(function (element, index, array) {
 			switch (element) {
@@ -64,14 +65,16 @@ function($) {
 					date += day
 					break;
 				default:
-					date = 'Incorrect date format!';
-					return 'Incorrect date format!';
+					 error = true;
 					break;
 			}
 			if (index < 2)
 				date += '/'
 		});
 
+		if (error)
+		date = 'Incorrect date format!';
+		
 		return date
 	}
 
